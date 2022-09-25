@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,12 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
+
+
+Route::prefix('roles')->group(function () {
+    Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+    Route::patch('/', [RoleController::class, 'update'])->name('roles.patch');
+    Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
+    Route::get('/show', [RoleController::class, 'show'])->name('roles.show');
 });
+Route::resource('userschedule', RoleController::class);
